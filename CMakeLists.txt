@@ -190,8 +190,10 @@ target_compile_definitions(pcre
   )
 
 if(PACKAGE)
+  if(NOT CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|aarch64|ARM64")
   target_compile_options(pcre
     PRIVATE -mtune=generic)
+  endif()
 endif()
 
 #############
@@ -380,8 +382,10 @@ endif()
 if(PACKAGE)
   target_compile_definitions(extempore
     PRIVATE -DEXT_SHARE_DIR=".")
+  if(NOT CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|aarch64|ARM64")
   target_compile_options(extempore
     PRIVATE -mtune=generic)
+  endif()
 elseif(EXT_SHARE_DIR)
   target_compile_definitions(extempore
     PRIVATE -DEXT_SHARE_DIR="${EXT_SHARE_DIR}")
