@@ -1,8 +1,9 @@
-cmake_minimum_required(VERSION 3.1) # we use target_sources()
+cmake_minimum_required(VERSION 3.19) # we use target_sources()
 project(Extempore VERSION 0.8.9)
 
-# for backwards compatibility with CMake older than 3.19
-cmake_policy(SET CMP0114 OLD)
+if(POLICY CMP0135)
+  cmake_policy(SET CMP0135 NEW)
+endif()
 
 option(ASSETS "download multimedia assets (approx 500MB)" OFF)
 option(BUILD_TESTS "build test targets (including examples)" ON)
