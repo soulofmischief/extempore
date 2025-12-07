@@ -40,9 +40,20 @@ endif()
 
 # packaging (binary distribution)
 
+# ARM64 requires macOS 11.0 (Big Sur) minimum
+if(APPLE)
+  if(NOT DEFINED CMAKE_OSX_DEPLOYMENT_TARGET)
+    if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64" OR CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "arm64")
+      set(CMAKE_OSX_DEPLOYMENT_TARGET 11.0)
+    endif()
+  endif()
+endif()
+
 if(PACKAGE)
-  # this needs to be set before project() is called
-  set(CMAKE_OSX_DEPLOYMENT_TARGET 10.12)
+  # For packaged binaries on Intel, enforce a 10.12 floor if still unset
+  if(NOT DEFINED CMAKE_OSX_DEPLOYMENT_TARGET)
+    set(CMAKE_OSX_DEPLOYMENT_TARGET 10.12)
+  endif()
   set(ASSETS ON) # necessary for packaging
   message(STATUS "Building Extempore for binary distribution (assets directory will be downloaded)")
 endif()
