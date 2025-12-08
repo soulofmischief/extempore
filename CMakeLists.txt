@@ -328,7 +328,7 @@ if (EXT_DYLIB)
     runtime/scheme.xtm
   )
 
-  add_library(extempore SHARED 
+  add_library(extempore SHARED
     src/Extempore.cpp
     src/AudioDevice.cpp
     src/EXTZones.cpp
