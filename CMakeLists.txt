@@ -419,7 +419,7 @@ elseif(EXT_SHARE_DIR)
     PRIVATE -DEXT_SHARE_DIR="${EXT_SHARE_DIR}")
 elseif(EXT_DYLIB)
   target_compile_definitions(extempore
-    PRIVATE -DEXT_DYLIB=1 
+    PRIVATE -DEXT_DYLIB=1
     PRIVATE -DEXT_SHARE_DIR="."
   )
 else()
