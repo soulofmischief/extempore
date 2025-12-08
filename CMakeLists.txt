@@ -336,6 +336,7 @@ if (EXT_DYLIB)
     src/EXTLLVM.cpp
     src/EXTThread.cpp
     src/Extempore.cpp
+    src/shims/__hash_memory.cpp
     src/OSC.cpp
     src/Scheme.cpp
     src/SchemeFFI.cpp
@@ -353,6 +354,7 @@ else()
     src/EXTLLVM.cpp
     src/EXTThread.cpp
     src/Extempore.cpp
+    src/shims/__hash_memory.cpp
     src/OSC.cpp
     src/Scheme.cpp
     src/SchemeFFI.cpp
