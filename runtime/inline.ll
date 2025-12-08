@@ -1,3 +1,7 @@
+; Type definitions required for LLVM 21+ (types must be sized before GEP)
+%mzone = type {i8*, i64, i64, i64, i8*, %mzone*}
+%clsvar = type {i8*, i32, i8*, %clsvar*}
+
 define private %clsvar* @new_address_table() nounwind alwaysinline
 {
   ret %clsvar* null
