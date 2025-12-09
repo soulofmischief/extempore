@@ -3349,7 +3349,8 @@
                  (libname (sanitize-platform-path (filename-from-path lib-path)))
                  (libname-no-extension (string-append "xtm" (filename-strip-extension libname)))
                  (output-dir (sanitize-platform-path (string-append (sys:share-dir) "/libs/aot-cache")))
-                 (aot-compilation-file-path (sanitize-platform-path (string-append output-dir "/" libname))))
+                 (aot-compilation-file-path (sanitize-platform-path (string-append output-dir "/" libname)))
+                 (original-opt-level (llvm:optimization-level)))
             (if (not (sys:load-preload-check (string->symbol libname-no-extension)))
                 (begin (print "AOT-compilation file not written ")
                        (close-port *impc:aot:current-output-port*)
@@ -3367,6 +3368,8 @@
                   (if (impc:aot:currently-compiling?)
                       (begin
                         (llvm:optimize #t); // should this be restored later?
+                        ;; Use O3 optimization for AOT compilation.
+                        (llvm:optimization-level 3)
                         ;; this is the 'success' branch
                         (set! *impc:aot:current-lib-name* libname-no-extension)
                         ;; (impc:aot:insert-header libname-no-extension)
@@ -3386,6 +3389,8 @@
                           (if (not module)
                               (impc:compiler:print-compiler-error "Failed compiling LLVM IR")
                               (impc:aot:compile-module libname-no-extension module)))
+                        ;; Restore configured optimization level after AOT completes
+                        (llvm:optimization-level original-opt-level)
                         ;; (impc:aot:insert-footer libname-no-extension)
                         (close-port *impc:aot:current-output-port*)
                         (set! *impc:aot:current-lib-name* "xtmdylib")
