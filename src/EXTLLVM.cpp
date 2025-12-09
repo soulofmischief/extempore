@@ -610,6 +610,8 @@ std::vector<llvm::Module*> Ms;
 int64_t LLVM_COUNT = 0l;
 bool OPTIMIZE_COMPILES = true;
 bool VERIFY_COMPILES = true;
+int OPTIMIZATION_LEVEL = 2;  // Default to O2
+
 // Get function address - main lookup function
 uint64_t getFunctionAddress(const std::string& name) {
     if (!JIT) return 0;
