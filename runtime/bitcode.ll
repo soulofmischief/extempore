@@ -634,15 +634,17 @@ define private i8* @i16toptr(i16 %a) alwaysinline
   ret i8* %return
 }
 
+; Portable 80-bit extended precision to double conversion
+; Works on both x86_64 and ARM64 by manually parsing IEEE 754 extended format
+; The 80-bit format is: 1 sign bit, 15 exponent bits, 64 mantissa bits (explicit integer bit)
+; Input is big-endian (as used in AIFF files)
+declare double @fp80_to_double_portable(i8*) nounwind
+
 define private double @fp80ptrtod(i8* %fp80ptr)
 {
-  %1 = alloca i8*, align 8
-  store i8* %fp80ptr, i8** %1, align 8
-  %2 = load i8*, i8** %1, align 8
-  %3 = bitcast i8* %2 to x86_fp80*
-  %4 = load x86_fp80, x86_fp80* %3, align 16
-  %5 = fptrunc x86_fp80 %4 to double
-  ret double %5
+entry:
+  %result = call double @fp80_to_double_portable(i8* %fp80ptr)
+  ret double %result
 }
 
 declare i32 @printf(i8* noalias nocapture, ...)

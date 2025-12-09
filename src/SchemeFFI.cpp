@@ -555,8 +555,9 @@ static llvm::Module* jitCompile(const std::string& String)
         // Extract and store external library function declarations.
         extractAndStoreExternalLibFunctions(String);
 
+        // Set target triple.
         if (unlikely(!extemp::UNIV::ARCH.empty())) {
-            newModule->setTargetTriple(extemp::UNIV::ARCH);
+            newModule->setTargetTriple(llvm::Triple(extemp::UNIV::ARCH));
         }
 
         // Optimize
